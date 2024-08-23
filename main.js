@@ -8,6 +8,11 @@ const path = require("path");
 // const findGst = require("./sql/sql.js");
 // const findHA = require("./sql/sql_ha.js");
 
+// let {ha_accts} = require("./data_sets/ha_accts.js");
+// import { ha_accts } from "./data_sets/ha_accts";    
+
+let ha_accts;  // this is the global variable for the house accounts
+
 const winWidth = 1200;
 const winHeight = 900;
 const winX = 0;
@@ -46,7 +51,7 @@ app.whenReady().then(() => {
     createWindow();
     window.once("ready-to-show", () => {
         window.show();
-        // getHAList();
+        getHAList();
     });
 });
 
@@ -69,6 +74,25 @@ const cbOptionsHA = {
     },
 };
 
+function getHAList() {
+    let params = new URLSearchParams({
+        propertyID: "310046",
+    });
+    fetch(cbServer + cbApiCall + params, cbOptionsHA)
+        .then(res => res.json())
+        .then((data) => {
+            console.log("in main: ", data);
+            ha_accts = data.data;
+            // window.webContents.send("haList", data);
+        });
+}   
+
+ipcMain.on("haList", async (event, data) => {
+    // getHAList();
+    console.log('main: haList: ', ha_accts)
+    window.webContents.send("haList", ha_accts);
+});
+/*
 ipcMain.on("haList", async (event, data) => {
     let params = new URLSearchParams({
         propertyID: "310046",
@@ -77,9 +101,12 @@ ipcMain.on("haList", async (event, data) => {
         .then(res => res.json())      
         .then((data) => {
             // console.log("in main: ", data);
+            // ha_accts = data.data;
             window.webContents.send("haList", data);
         });
 })
+*/
+
 /**
  * Sending messages to Renderer
  * `window` is an object which is an instance of `BrowserWindow`

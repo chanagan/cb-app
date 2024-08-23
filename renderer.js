@@ -1,3 +1,4 @@
+// import { ha_accts } from "./data_sets/ha_accts.js";
 import { dispHaList } from "./js/dispHaList.js";
 // import { dispGstDtl } from "./dispGstSrchDtl.js";
 // import { dispGstResList } from "./dispGstResList.js";
@@ -5,7 +6,7 @@ import { dispHaList } from "./js/dispHaList.js";
 // import { dispGstStaysList } from "./dispGstStaysList.js";
 // import { dispGstStaysDtl } from "./dispGstStaysDtl.js";
 
-
+let ha_accts = {};
 
 const clearInfoBlocks = () => { 
   let dispElems = document.getElementsByClassName("gstDisp"); 
@@ -61,7 +62,7 @@ window.addEventListener("message", (event) => {
   // console.log('renderer: ', event.data);
   if (event.data.type === "haList") {
     console.log('renderer: ', event.data.data);
-
+    ha_accts = event.data.data;
     // return
     clearSelections();
 

@@ -1,17 +1,16 @@
 import { dater, formatter } from "./utility.js"
 
-let haTblHdrs = { 'NUMBER' : "HA #"}
-    haTblHdrs['LASTNAME'] = 'Name'
-    haTblHdrs['ADDRESS'] = 'Address'
-    haTblHdrs['PHONE1'] = 'Phone'
-    haTblHdrs['CHECKIN'] = 'Created'
-    haTblHdrs['ENTEREDBY'] = 'Entered By'
-    haTblHdrs['NAOP'] = 'NAOP?'
+let haTblHdrs = { 'propertyID' : "Property #"}
+    haTblHdrs['accountID'] = 'Acct #'
+    haTblHdrs['accountName'] = 'Name'
+    haTblHdrs['accountStatus'] = 'Status'
+    haTblHdrs['dateCreated'] = 'Created'
+    haTblHdrs['isPrivate'] = 'Private?'
 
 
 
 export function dispHaList(data) {
-    let rowCnt = data.data.length
+    let rowCnt = data.length
     let gstTblDiv = document.getElementById('haTblDiv')
 
     console.log('dispHaList: data: ', rowCnt, ' : ', data)
@@ -26,7 +25,7 @@ export function dispHaList(data) {
 
 
     // console.log('colCnt: ', colCnt)
-return 0
+// return 0
     // will be putting the results into a table
     let newTable = "<table border='0' id='gstTbl'>"
     // if (Array.isArray(data)) {
@@ -52,8 +51,8 @@ return 0
                     }
                     // newTable += "<td>" + data[i][key] + "</td>"
                 } else if 
-                    (key === 'CHECKIN' ) {
-                        let newDate = dater(data[i]['CHECKIN'])
+                    (key === 'dateCreated' ) {
+                        let newDate = dater(data[i]['dateCreated'])
                         newTable += "<td>" + newDate + "</td>"
                 } else
                     newTable += "<td>" + data[i][key] + "</td>"            
