@@ -98,19 +98,14 @@ ipcMain.on("haList", async (event, data) => {
 });
 
 
-ipcMain.on("resLiist", async (event, data) => {
-    // getHAList();
-    console.log('main: resLiist: ', resData)
-    window.webContents.send("resData", resData);
-});
 
 
 
 function getResList() {
     let params = new URLSearchParams({
         propertyID: cbPropertyID,
-        checkInFrom: "2024-08-23",
-        checkInTo: "2024-08-25",
+        checkInFrom: "2024-08-31",
+        checkInTo: "2024-09-06",
     });
     fetch(cbServer + cbApiGetReservations + params, cbOptions)
         .then(res => res.json())
@@ -120,6 +115,12 @@ function getResList() {
             // window.webContents.send("haList", data);
         });
 }   
+ipcMain.on("resLiist", async (event, data) => {
+    // getHAList();
+    console.log('main: resLiist: ', resData)
+    window.webContents.send("resData", resData);
+});
+
 
 /*
 ipcMain.on("haList", async (event, data) => {
