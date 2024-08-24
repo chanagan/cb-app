@@ -16,9 +16,9 @@ const API = {
 
 contextBridge.exposeInMainWorld('api', API)                                                                                                                                                
 
-ipcRenderer.on('resData', (event, data) => {
-    console.log('preload-resData: ', data )
-    window.postMessage({type: 'resData', data: data})
+ipcRenderer.on('haList', (event, data) => {
+    console.log('preload-haList: ', data )
+    window.postMessage({type: 'haList', data: data})
 })
 
 ipcRenderer.on('gstSearch', (event, data) => {

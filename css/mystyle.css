@@ -142,7 +142,9 @@ td img {
 
 .titles {
     grid-area: titles;
-    align-items: center;
+    padding: 50px;
+    /* align-items: center; */
+    /* vertical-align: center; */
 }
 .footer {
     grid-area: footer;

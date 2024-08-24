@@ -1,12 +1,10 @@
 // import { ha_accts } from "./data_sets/ha_accts.js";
-// import { dispHaList } from "./js/dispHaList.js";
+import { dispHaList } from "./js/dispHaList.js";
 // import { dispGstDtl } from "./dispGstSrchDtl.js";
 // import { dispGstResList } from "./dispGstResList.js";
 // import { dispGstResDtl } from "./dispGstResDtl.js";
 // import { dispGstStaysList } from "./dispGstStaysList.js";
 // import { dispGstStaysDtl } from "./dispGstStaysDtl.js";
-
-import {dispResList} from "./js/dispResList.js";
 
 let ha_accts = {};
 
@@ -44,7 +42,7 @@ let qryKeyVIP;
 /*
  * Clicked on the search button
  */
-btnGstSearch.addEventListener("click", () => {
+btnHASearch.addEventListener("click", () => {
 //   let srchID = document.getElementById("gstSearch").value;
 let srchID = 'all'
   clearInfoBlocks();
@@ -53,7 +51,7 @@ let srchID = 'all'
 //   // }
 //   // console.log(srchID);
   // alert('click: ')
-  api.send("resLiist", srchID);
+  api.send("haList", srchID);
 });
 
 /*
@@ -62,14 +60,14 @@ let srchID = 'all'
 let rowCnt = 0;
 window.addEventListener("message", (event) => {
   // console.log('renderer: ', event.data);
-  if (event.data.type === "resData") {
+  if (event.data.type === "haList") {
     console.log('renderer: ', event.data.data);
     ha_accts = event.data.data;
     // return
     clearSelections();
 
     // go show results of the guest search
-    rowCnt = dispResList(event.data.data);
+    rowCnt = dispHaList(event.data.data);
     // console.log('rowCnt: ', rowCnt);
     
     let cntRes = document.getElementById("cntRes");

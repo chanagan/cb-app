@@ -12,6 +12,7 @@ const path = require("path");
 // import { ha_accts } from "./data_sets/ha_accts";    
 
 let ha_accts;  // this is the global variable for the house accounts
+let resWindow, resData; 
 
 const winWidth = 1200;
 const winHeight = 900;
@@ -51,7 +52,8 @@ app.whenReady().then(() => {
     createWindow();
     window.once("ready-to-show", () => {
         window.show();
-        getHAList();
+        // getHAList();
+        getResList();
     });
 });
 
@@ -61,13 +63,15 @@ app.whenReady().then(() => {
  * - the list is used to populate the dropdown
  */
 
+const cbPropertyID = "310046";
 const cbServer = "https://hotels.cloudbeds.com/api/v1.2/";
 // const cbApiCall = 'getGuestList'
 // const cbApiCall = "getHouseAccountDetails?";
-const cbApiCall = "getHouseAccountList?";
+const cbApiHouseAccountList = "getHouseAccountList?";
+const cbApiGetReservations = "getReservations?";
 // const cbApiCall = 'getDashboard'
 
-const cbOptionsHA = {
+const cbOptions = {
     method: "GET",
     headers: {
         "x-api-key": "cbat_AVYJ4dezriaScXdXY9WJrVyjHl5PxxY5",
@@ -76,12 +80,12 @@ const cbOptionsHA = {
 
 function getHAList() {
     let params = new URLSearchParams({
-        propertyID: "310046",
+        propertyID: cbPropertyID,
     });
-    fetch(cbServer + cbApiCall + params, cbOptionsHA)
+    fetch(cbServer + cbApiHouseAccountList + params, cbOptions)
         .then(res => res.json())
         .then((data) => {
-            console.log("in main: ", data);
+            console.log("main: getHAList: ", data);
             ha_accts = data.data;
             // window.webContents.send("haList", data);
         });
@@ -92,6 +96,31 @@ ipcMain.on("haList", async (event, data) => {
     console.log('main: haList: ', ha_accts)
     window.webContents.send("haList", ha_accts);
 });
+
+
+ipcMain.on("resLiist", async (event, data) => {
+    // getHAList();
+    console.log('main: resLiist: ', resData)
+    window.webContents.send("resData", resData);
+});
+
+
+
+function getResList() {
+    let params = new URLSearchParams({
+        propertyID: cbPropertyID,
+        checkInFrom: "2024-08-23",
+        checkInTo: "2024-08-25",
+    });
+    fetch(cbServer + cbApiGetReservations + params, cbOptions)
+        .then(res => res.json())
+        .then((data) => {
+            console.log("main: getResList: ", data);
+            resData = data.data;
+            // window.webContents.send("haList", data);
+        });
+}   
+
 /*
 ipcMain.on("haList", async (event, data) => {
     let params = new URLSearchParams({
