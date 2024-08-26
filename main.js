@@ -104,8 +104,8 @@ ipcMain.on("haList", async (event, data) => {
 function getResList() {
     let params = new URLSearchParams({
         propertyID: cbPropertyID,
-        checkInFrom: "2024-08-31",
-        checkInTo: "2024-09-06",
+        checkInFrom: "2024-08-23",
+        checkInTo: "2024-08-31",
     });
     fetch(cbServer + cbApiGetReservations + params, cbOptions)
         .then(res => res.json())

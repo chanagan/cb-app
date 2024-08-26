@@ -1,69 +1,108 @@
-import { dater, formatter } from "./utility.js"
+import { dater, formatter } from "./utility.js";
 
-let tblHdrs = { 'propertyID' : "Property #"}
-    tblHdrs['guestName'] = 'Guest Name'
-    tblHdrs['startDate'] = 'Check In'
-    tblHdrs['endDate'] = 'Check Out'
-    tblHdrs['status'] = 'Status'
-    // tblHdrs['isPrivate'] = 'Private?'
+let tblHdrs = { propertyID: "Property #" };
+tblHdrs["guestName"] = "Guest Name";
+tblHdrs["nights"] = "Nights";
+tblHdrs["startDate"] = "Check In";
+tblHdrs["endDate"] = "Check Out";
+tblHdrs["status"] = "Status";
+// tblHdrs['isPrivate'] = 'Private?'
 
+/**
+ * let jData = [
+  { name: "GeeksforGeeks", est: 2009 },
+  { name: "Google", est: 1998 },
+  { name: "Microsoft", est: 1975 }
+];
+jData.sort((a, b) => (a.name > b.name ? 1 : -1));
+console.log(jData);
+ */
 
+/**
+ *
+ * @param {*} data
+ * @returns rowCnt
+ */
 
 export function dispResList(data) {
-    let rowCnt = data.length
-    let gstTblDiv = document.getElementById('haTblDiv')
+    let rowCnt = data.length;
+    let haTblDiv = document.getElementById("haTblDiv");
 
-    console.log('dispResList: data: ', rowCnt, ' : ', data)
-    
     // if no data returned, display message and return
     if (rowCnt === 0) {
-        haTblDiv.innerHTML = '<b>No House Account with that name</b>'
-        return 0
+        haTblDiv.innerHTML = "<b>No Reservations</b>";
+        return 0;
     }
+    // console.log("dispResList: data: ", rowCnt, " : ", data);
+
+    // sort the data by startDate
+    data.sort((a, b) => (a.startDate > b.startDate ? 1 : -1));
+    console.log("dispResList: data: ", rowCnt, " : ", data);
+
+    // compute the number of nights
+    for (let i = 0; i < rowCnt; i++) {
+        let sDate = new Date(data[i].startDate);
+        let eDate = new Date(data[i].endDate);
+        let diffTime = Math.abs(eDate - sDate);
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        data[i].nights = diffDays;
+    }
+    console.log("dispResList: data: ", rowCnt, " : ", data);
+
     // if data returned, display table
-    // let colCnt = Object.keys(data[0]).length
 
-
-    // console.log('colCnt: ', colCnt)
-// return 0
     // will be putting the results into a table
-    let newTable = "<table border='0' id='gstTbl'>"
+    let newTable = "<table border='0' id='gstTbl'>";
     // if (Array.isArray(data)) {
-        // create table header
-        newTable += "<thead>"
-        newTable += "<tr>"
+    // create table header
+    newTable += "<thead>";
+    newTable += "<tr>";
+    for (let key in tblHdrs) {
+        newTable += "<th>" + tblHdrs[key] + "</th>";
+    }
+    newTable += "</tr>";
+    newTable += "</thead>";
+    // create table rows
+    for (let i = 0; i < rowCnt; i++) {
+        // newTable += "<tr>";
+        let resStatus = data[i].nights < 6 ? data[i].status : 'vip';
+        let newRow = "<tr class='" + resStatus + "'>";
+        newTable += newRow;
         for (let key in tblHdrs) {
-            newTable += "<th>" + tblHdrs[key] + "</th>"
-        }
-        newTable += "</tr>"
-        newTable += "</thead>"
-        // create table rows
-        for (let i = 0; i < rowCnt; i++) {
-            newTable += "<tr>"
-            for (let key in tblHdrs) {
-                // console.log('key: ', key, '  data[i][key]: ', data[i][key])
-                // don't show data for this, just visual indicator
-                 if (key === 'NAOP') {
-                    if (data[i][key] === 1) {
-                        newTable += "<td class='do-not-rent'>" + 'NAOP' + "</td>"
-                    } else {
-                        newTable += "<td>" + 'OK' + "</td>"
-                    }
-                    // newTable += "<td>" + data[i][key] + "</td>"
-                } else if 
-                    (key === 'dateCreated' ) {
-                        let newDate = dater(data[i]['dateCreated'])
-                        newTable += "<td>" + newDate + "</td>"
-                } else
-                    newTable += "<td>" + data[i][key] + "</td>"            
+            switch (key) {
+                case "startDate":
+                    newTable += "<td>" + dater(data[i][key]) + "</td>";
+                    break;
+                case "endDate":
+                    newTable += "<td>" + dater(data[i][key]) + "</td>";
+                    break;
+                default:
+                    newTable += "<td>" + data[i][key] + "</td>";
+                    break;
             }
-            newTable += "</tr>"
+
+
+/*
+            // console.log('key: ', key, '  data[i][key]: ', data[i][key])
+            // don't show data for this, just visual indicator
+            if (key === "NAOP") {
+                if (data[i][key] === 1) {
+                    newTable += "<td class='do-not-rent'>" + "NAOP" + "</td>";
+                } else {
+                    newTable += "<td>" + "OK" + "</td>";
+                }
+                // newTable += "<td>" + data[i][key] + "</td>"
+            } else if (key === "dateCreated") {
+                let newDate = dater(data[i]["dateCreated"]);
+                newTable += "<td>" + newDate + "</td>";
+            } else newTable += "<td>" + data[i][key] + "</td>";
+             */
         }
+        newTable += "</tr>";
+    }
     // }
-    newTable += '</table>'
-    gstTblDiv.innerHTML = newTable
+    newTable += "</table>";
+    haTblDiv.innerHTML = newTable;
 
-    return rowCnt
+    return rowCnt;
 }
-
-

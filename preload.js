@@ -17,7 +17,7 @@ const API = {
 contextBridge.exposeInMainWorld('api', API)                                                                                                                                                
 
 ipcRenderer.on('resData', (event, data) => {
-    console.log('preload-resData: ', data )
+    // console.log('preload-resData: ', data )
     window.postMessage({type: 'resData', data: data})
 })
 

@@ -37,7 +37,32 @@ table caption {
 th {
     vertical-align: top;
 }
+.vip {
+    background-color: #4c76ae;
+    color: #fff;
+    font-weight: bold;
+}
 
+.checked_in {
+    background-color: #a8f3ea;
+    color: #444;
+    font-weight: bold;
+}
+.checked_out {
+    background-color: #beb3b3;
+    color: #444;
+    font-weight: bold;
+}
+.canceled {
+    background-color: #f2a48d;
+    color: #fff;
+    font-weight: bold;
+}
+.confirmed {
+    background-color: #00a7ce;
+    color: #fff;
+    font-weight: bold;
+}
 #gstNameDiv {
     text-align: center;
 }
@@ -121,8 +146,25 @@ tr.highlight {
     /* background-color: #fff;
     color: #444; */
 }
-td img {
 
+.list {
+    grid-area: list;
+}
+.expand {
+    grid-area: expand;
+}
+
+.wrapperList {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 50% 50%;
+    grid-template-areas:
+    "list expand ";
+    /* background-color: #fff;
+    color: #444; */
+}
+
+td img {
     width: 12px;
     height: 12px;
     /* display: block; */

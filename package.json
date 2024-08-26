@@ -17,7 +17,6 @@
     "nodemon": "^3.1.4"
   },
   "dependencies": {
-    "alasql": "^4.5.1",
     "electron-fetch": "^1.9.1",
     "xel": "^0.28.7"
   }

@@ -6,9 +6,12 @@
 // import { dispGstStaysList } from "./dispGstStaysList.js";
 // import { dispGstStaysDtl } from "./dispGstStaysDtl.js";
 
+
+
 import {dispResList} from "./js/dispResList.js";
 
 let ha_accts = {};
+let resList = {};
 
 const clearInfoBlocks = () => { 
   let dispElems = document.getElementsByClassName("gstDisp"); 
@@ -48,11 +51,7 @@ btnGstSearch.addEventListener("click", () => {
 //   let srchID = document.getElementById("gstSearch").value;
 let srchID = 'all'
   clearInfoBlocks();
-//   // for (let i = 0; i < dispElems.length; i++) {
-//   //   dispElems[i].innerHTML = "";
-//   // }
-//   // console.log(srchID);
-  // alert('click: ')
+
   api.send("resLiist", srchID);
 });
 
@@ -63,13 +62,14 @@ let rowCnt = 0;
 window.addEventListener("message", (event) => {
   // console.log('renderer: ', event.data);
   if (event.data.type === "resData") {
-    console.log('renderer: ', event.data.data);
-    ha_accts = event.data.data;
+    // console.log('renderer: ', event.data.data);
+    resList = event.data.data;
     // return
     clearSelections();
 
     // go show results of the guest search
-    rowCnt = dispResList(event.data.data);
+    // rowCnt = dispResList(event.data.data);
+    rowCnt = dispResList(resList);
     // console.log('rowCnt: ', rowCnt);
     
     let cntRes = document.getElementById("cntRes");
