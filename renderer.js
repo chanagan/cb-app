@@ -36,9 +36,19 @@ const clearSelections = () => {
 
 let qryKeyVIP;
 
+
 /**
  * set up the swap window buttons
  */
+
+hdrStatusChecks.addEventListener("click", (event) => {
+  console.log("hdrStatus clicked");
+  const el = document.querySelector("#resListDiv");
+  const allRows = el.querySelectorAll("tr.checked_in");
+  allRows.forEach((row) => {
+    row.style.visibility = "hidden";
+  });
+});
 
 // btnSwitch2HA.addEventListener("click", () => {
 //   // console.log("btnSwitch clicked");
@@ -48,12 +58,13 @@ let qryKeyVIP;
 /*
  * Clicked on the search button
  */
-btnGstSearch.addEventListener("click", () => {
-//   let srchID = document.getElementById("gstSearch").value;
-let srchID = 'all'
+btnDateSearch.addEventListener("click", () => {
+  let resDateFrom = document.getElementById("resDateFrom").value;
+  let resDateTo = document.getElementById("resDateTo").value;
+// let srchID = 'all'
   clearInfoBlocks();
 
-  api.send("resList", srchID); // send to main
+  api.send("resList", {resDateFrom, resDateTo}); // send to main
 });
 
 /*

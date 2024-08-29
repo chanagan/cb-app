@@ -35,22 +35,41 @@
 
         <div class="wrapperHead">
             <div class="hdrSearch">
-                <label for="gstSearch">Search for Guests:</label>
+                <label> Date Range: </label>
                 <br />
                 <input
-                    type="text"
-                    id="gstSearch"
-                    placeholder="Search Name .."
+                    type="date"
+                    id="resDateFrom"
                 />
-                <button type="button" id="btnGstSearch">Search</button>
+                <input
+                    type="date"
+                    id="resDateTo"
+                />
+                <button type="button" id="btnDateSearch">Search</button>
             </div>
             <div class="hdrCount">
                 <span id="cntRes"></span>
             </div>
-            <div class="hdrSwitch">
-                <button type="button" id="btnSwitch2Gst">
-                    Switch to House Account
-                </button>
+            <div class="hdrStatus" id="hdrStatusChecks">
+                <input type="checkbox" id="checked_in"
+                    class="checked_in" checked />
+                <label for="checked_in" class="checked_in">Checked In</label>
+
+                <input type="checkbox" id="checked_out" 
+                    class="checked_out" checked/>
+                <label for="checked_out" class="checked_out">Checked Out</label>
+
+                <input type="checkbox" id="confirmed" 
+                    class="confirmed" checked/>
+                <label for="confirmed" class="confirmed">Confirmed</label>
+
+                <input type="checkbox" id="canceled" 
+                    class="canceled" checked/>
+                <label for="canceled" class="canceled">Canceled</label>
+
+                <input type="checkbox" id="vip" 
+                    class="vip" checked/>
+                <label for="vip" class="vip">VIP</label>
             </div>
 
             <!-- <input type="text" id="gstSearch" placeholder="Search Name .." />

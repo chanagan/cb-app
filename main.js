@@ -12,7 +12,7 @@ const path = require("path");
 // import { ha_accts } from "./data_sets/ha_accts";    
 
 let ha_accts;  // this is the global variable for the house accounts
-let resWindow, resData; 
+let resWindow, resData;
 
 const winWidth = 1200;
 const winHeight = 900;
@@ -52,7 +52,7 @@ app.whenReady().then(() => {
     createWindow();
     window.once("ready-to-show", () => {
         window.show();
-        getResList();
+        // getResList();
     });
 });
 
@@ -77,26 +77,28 @@ const cbOptions = {
     },
 };
 
-
-
-function getResList() {
+// function getResList() {
+ipcMain.on("resList", async (event, data) => {
+    let dtFrom = data.resDateFrom;
+    let dtTo = data.resDateTo;
     let params = new URLSearchParams({
         propertyID: cbPropertyID,
-        checkInFrom: "2024-08-23",
-        checkInTo: "2024-08-31",
+        // checkInFrom: "2024-08-23",
+        // checkInTo: "2024-08-31",
+        checkInFrom: dtFrom,
+        checkInTo: dtTo,
     });
     fetch(cbServer + 'getReservations?' + params, cbOptions)
         .then(res => res.json())
         .then((data) => {
             console.log("main: getResList: ", data);
             resData = data.data;
-            // window.webContents.send("haList", data);
+            window.webContents.send("resData", resData); // send to preload
         });
-}   
-ipcMain.on("resList", async (event, data) => {
+}
     // console.log('main: resList: ', resData)
-    window.webContents.send("resData", resData); // send to preload
-});
+    // window.webContents.send("resData", resData); // send to preload
+);
 
 ipcMain.on('getResDetail', async (event, resID) => {
     console.log('main: getResDetail: resID: ', resID)
