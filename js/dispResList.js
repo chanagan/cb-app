@@ -1,6 +1,6 @@
 import { dater, formatter } from "./utility.js";
 
-let tblHdrs = { propertyID: "Property #" };
+let tblHdrs = { reservationID: "Res ID" };
 tblHdrs["guestName"] = "Guest Name";
 tblHdrs["nights"] = "Nights";
 tblHdrs["startDate"] = "Check In";
@@ -26,7 +26,7 @@ console.log(jData);
 
 export function dispResList(data) {
     let rowCnt = data.length;
-    let haTblDiv = document.getElementById("haTblDiv");
+    let haTblDiv = document.getElementById("resListDiv");
 
     // if no data returned, display message and return
     if (rowCnt === 0) {
@@ -52,7 +52,7 @@ export function dispResList(data) {
     // if data returned, display table
 
     // will be putting the results into a table
-    let newTable = "<table border='0' id='gstTbl'>";
+    let newTable = "<table border='0' id='listTbl'>";
     // if (Array.isArray(data)) {
     // create table header
     newTable += "<thead>";
@@ -66,7 +66,10 @@ export function dispResList(data) {
     for (let i = 0; i < rowCnt; i++) {
         // newTable += "<tr>";
         let resStatus = data[i].nights < 6 ? data[i].status : 'vip';
-        let newRow = "<tr class='" + resStatus + "'>";
+        // let newRow = "<tr class='" + resStatus + "'>";
+        // let rawData = JSON.stringify(data[i]);
+        let resID = data[i].reservationID;
+        let newRow = `<tr class='${resStatus}' data-resID=${resID}>`;
         newTable += newRow;
         for (let key in tblHdrs) {
             switch (key) {
@@ -82,21 +85,6 @@ export function dispResList(data) {
             }
 
 
-/*
-            // console.log('key: ', key, '  data[i][key]: ', data[i][key])
-            // don't show data for this, just visual indicator
-            if (key === "NAOP") {
-                if (data[i][key] === 1) {
-                    newTable += "<td class='do-not-rent'>" + "NAOP" + "</td>";
-                } else {
-                    newTable += "<td>" + "OK" + "</td>";
-                }
-                // newTable += "<td>" + data[i][key] + "</td>"
-            } else if (key === "dateCreated") {
-                let newDate = dater(data[i]["dateCreated"]);
-                newTable += "<td>" + newDate + "</td>";
-            } else newTable += "<td>" + data[i][key] + "</td>";
-             */
         }
         newTable += "</tr>";
     }

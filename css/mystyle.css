@@ -136,24 +136,8 @@ tr.highlight {
     overflow: auto;
 }
 
-.wrapperTop{
-    display: grid;
-    padding-bottom: 5px;
-    gap: 5px;
-    grid-template-columns: 50% 50%;
-    grid-template-areas:
-    "icon titles ";
-    /* background-color: #fff;
-    color: #444; */
-}
 
-.list {
-    grid-area: list;
-}
-.expand {
-    grid-area: expand;
-}
-
+/* block for the list and detail boxes */
 .wrapperList {
     display: grid;
     gap: 5px;
@@ -162,6 +146,12 @@ tr.highlight {
     "list expand ";
     /* background-color: #fff;
     color: #444; */
+}
+.list {
+    grid-area: list;
+}
+.expand {
+    grid-area: expand;
 }
 
 td img {
@@ -176,18 +166,7 @@ td img {
     height: auto;
     display: block;
 }
-.icon {
-    grid-area: icon;
-    justify-content: center;
-    align-items: center;
-}
 
-.titles {
-    grid-area: titles;
-    padding: 50px;
-    /* align-items: center; */
-    /* vertical-align: center; */
-}
 .footer {
     grid-area: footer;
 }
@@ -198,7 +177,7 @@ td.money {
 
 /* Tooltip container */
 .tooltip {
-    position: relative; */
+    position: relative; 
     display: inline-block;
     border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
   }
@@ -258,8 +237,8 @@ td.tooltiptext {
 
 td {
     padding: 2px;
-    justify-content: center;
-    text-align: center;
+    /* justify-content: center; */
+    /* text-align: center; */
     /* border: 1px solid #ccc; */
 }
 .gstResvRates {

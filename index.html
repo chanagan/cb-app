@@ -4,13 +4,18 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="./css/mystyle.css" />
+        <link rel="stylesheet" href="./css/blockWrappers.css" />
 
-        <title>IH / CB App - Hotel Guests</title>
+        <!-- <script src="node_modules/xel/xel.js" type="module"></script>
+        <meta name="xel-theme" content="node_modules/xel/themes/cupertino.css">
+        <meta name="xel-icons" content="node_modules/xel/icons/fluent.svg"> -->
+
+        <title>IH / CB App - Hotel VIP Guests</title>
         <script></script>
     </head>
     <body>
         <div class="wrapperTop">
-            <div class="icon">
+            <div class="iconIH">
                 <img
                     src="images/IH-logo.png"
                     alt="IH Logo"
@@ -18,7 +23,7 @@
                     height="100"
                 />
             </div>
-            <div class="titles">
+            <div class="iconCB">
                 <img
                     src="images/cloudbeds_nebula_logo.png"
                     alt="CB Logo"
@@ -26,47 +31,40 @@
                     height="40"
                 />
             </div>
-            <!-- <div class="caveat">
-        <span class="data-caveat"> ** All data as of 7/8/2024 ** </span>
-      </div> -->
-            <!-- <input type="button" value="Resort Guests" 
-        onclick="window.location.href='index.html'"> -->
         </div>
 
-        <div class="box" id="gstNameDiv">
-            Selected Name: <span id="haName" class="gstDisp"></span>
-        </div>
-        <div class="box search">
-            <table class="search">
-                <tr>
-                    <td width="40%">
-                        <label for="gstSearch">Search for Reservations:</label>
-                        <br />
-                        <input
-                            type="text"
-                            id="gstSearch"
-                            placeholder="Search House Account Name .."
-                        />
-                        <button type="button" id="btnGstSearch">Search</button>
-                    </td>
-                    <td width="30%">
-                        <span id="cntRes"></span>
-                    </td>
-                    <td>
-                        <button type="button" id="btnSwitch2Gst">
-                            Switch to Resort Guests
-                        </button>
-                    </td>
-                </tr>
-            </table>
+        <div class="wrapperHead">
+            <div class="hdrSearch">
+                <label for="gstSearch">Search for Guests:</label>
+                <br />
+                <input
+                    type="text"
+                    id="gstSearch"
+                    placeholder="Search Name .."
+                />
+                <button type="button" id="btnGstSearch">Search</button>
+            </div>
+            <div class="hdrCount">
+                <span id="cntRes"></span>
+            </div>
+            <div class="hdrSwitch">
+                <button type="button" id="btnSwitch2Gst">
+                    Switch to House Account
+                </button>
+            </div>
 
             <!-- <input type="text" id="gstSearch" placeholder="Search Name .." />
       <button type="button" id="btnGstSearch">Search</button> -->
             <!-- <span id="cntRes"></span> -->
         </div>
+        <div class="box" id="gstNameDiv">
+            <span id="dispSelName" class="gstDisp"></span>
+        </div>
+
         <div class="header">
             <div class="box wrapperList">
-                <div id="haTblDiv" class="scrollable"></div>
+                <div id="resListDiv" class="list scrollable"></div>
+                <div id="resDtlDiv" class="expand scrollable"></div>
             </div>
         </div>
 
