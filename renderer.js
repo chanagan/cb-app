@@ -6,7 +6,7 @@
 // import { dispGstStaysList } from "./dispGstStaysList.js";
 // import { dispGstStaysDtl } from "./dispGstStaysDtl.js";
 
-
+import {updateStatusFlag} from "./js/utility.js";
 
 import {dispResList} from "./js/dispResList.js";
 import {dispResDetail} from "./js/dispResDetail.js";
@@ -34,21 +34,31 @@ const clearSelections = () => {
   clearInfoBlocks();
 }
 
-let qryKeyVIP;
-
+let reservationList;
+let today = Date()
+let later = today + 5
 
 /**
- * set up the swap window buttons
+ * when one of the status buttons is clicked,
+ * - this routine will update the on/off flags for each status
+ * - then display the results
+ * 
  */
 
 hdrStatusChecks.addEventListener("click", (event) => {
   console.log("hdrStatus clicked");
-  const el = document.querySelector("#resListDiv");
-  const allRows = el.querySelectorAll("tr.checked_in");
-  allRows.forEach((row) => {
-    row.style.visibility = "hidden";
-  });
+  let clsName = event.srcElement.className;
+  let clsChecked = event.srcElement.checked;
+  updateStatusFlag(clsName, clsChecked);
+  displayReservations(resList);
+  document.getElementById("resDtlDiv").innerHTML = "";
 });
+  // const el = document.querySelector("#resListDiv");
+  // const allRows = el.querySelectorAll("tr.checked_in");
+  // allRows.forEach((row) => {
+  //   row.style.visibility = "hidden";
+  // });
+// });
 
 // btnSwitch2HA.addEventListener("click", () => {
 //   // console.log("btnSwitch clicked");
@@ -67,6 +77,46 @@ btnDateSearch.addEventListener("click", () => {
   api.send("resList", {resDateFrom, resDateTo}); // send to main
 });
 
+const displayReservations = (data) => {
+  clearSelections();
+
+  // go show results of the guest search
+  // rowCnt = dispResList(event.data.data);
+  rowCnt = dispResList(resList);
+  // console.log('rowCnt: ', rowCnt);
+  
+  let cntRes = document.getElementById("cntRes");
+  cntRes.innerHTML = "Number of reservations found: <b>" + rowCnt + "</>";
+
+  // return
+
+  if (rowCnt > 0) {
+    let listTbl = document.getElementById("listTbl");
+
+    // this will fire when the table is clicked
+    listTbl.addEventListener("click", (e) => {
+      clearSelections();
+      let thisTR = e.target.parentNode;
+
+      let reservationID = thisTR.getAttribute("data-resID");
+      thisTR.classList.add("highlight");
+
+      // let col = e.target.cellIndex;
+      let dispSelName = document.getElementById("dispSelName");
+      let row = e.target.parentNode.rowIndex;
+      let selName = listTbl.rows[row].cells[1].innerHTML;
+      dispSelName.innerHTML = 'Selected Guest: ' + selName;
+
+      console.log("row: ", row, "  cellData: ", reservationID);
+
+      api.send(     'getResDetail', reservationID);
+      // api.send("gstDetail", qryKeyVIP);
+      // api.send("gstReserves", qryKeyVIP);
+      // api.send("gstStays", qryKeyVIP);
+    });
+  }
+  return rowCnt;
+}
 /*
  * get the search results back from preload.js
  */
@@ -79,44 +129,45 @@ window.addEventListener("message", (event) => {
   if (event.data.type === "resData") {
     // console.log('renderer: ', event.data.data);
     resList = event.data.data;
+    displayReservations(resList);
     // return
-    clearSelections();
+    // clearSelections();
 
-    // go show results of the guest search
-    // rowCnt = dispResList(event.data.data);
-    rowCnt = dispResList(resList);
-    // console.log('rowCnt: ', rowCnt);
+    // // go show results of the guest search
+    // // rowCnt = dispResList(event.data.data);
+    // rowCnt = dispResList(resList);
+    // // console.log('rowCnt: ', rowCnt);
     
-    let cntRes = document.getElementById("cntRes");
-    cntRes.innerHTML = "Number of reservations found: <b>" + rowCnt + "</>";
+    // let cntRes = document.getElementById("cntRes");
+    // cntRes.innerHTML = "Number of reservations found: <b>" + rowCnt + "</>";
 
-    // return
+    // // return
 
-    if (rowCnt > 0) {
-      let listTbl = document.getElementById("listTbl");
+    // if (rowCnt > 0) {
+    //   let listTbl = document.getElementById("listTbl");
 
-      // this will fire when the table is clicked
-      listTbl.addEventListener("click", (e) => {
-        clearSelections();
-        let thisTR = e.target.parentNode;
+    //   // this will fire when the table is clicked
+    //   listTbl.addEventListener("click", (e) => {
+    //     clearSelections();
+    //     let thisTR = e.target.parentNode;
 
-        let reservationID = thisTR.getAttribute("data-resID");
-        thisTR.classList.add("highlight");
+    //     let reservationID = thisTR.getAttribute("data-resID");
+    //     thisTR.classList.add("highlight");
 
-        // let col = e.target.cellIndex;
-        let dispSelName = document.getElementById("dispSelName");
-        let row = e.target.parentNode.rowIndex;
-        let selName = listTbl.rows[row].cells[1].innerHTML;
-        dispSelName.innerHTML = 'Selected Guest: ' + selName;
+    //     // let col = e.target.cellIndex;
+    //     let dispSelName = document.getElementById("dispSelName");
+    //     let row = e.target.parentNode.rowIndex;
+    //     let selName = listTbl.rows[row].cells[1].innerHTML;
+    //     dispSelName.innerHTML = 'Selected Guest: ' + selName;
 
-        console.log("row: ", row, "  cellData: ", reservationID);
+    //     console.log("row: ", row, "  cellData: ", reservationID);
 
-        api.send('getResDetail', reservationID);
-        // api.send("gstDetail", qryKeyVIP);
-        // api.send("gstReserves", qryKeyVIP);
-        // api.send("gstStays", qryKeyVIP);
-      });
-    }
+    //     api.send(     'getResDetail', reservationID);
+    //     // api.send("gstDetail", qryKeyVIP);
+    //     // api.send("gstReserves", qryKeyVIP);
+    //     // api.send("gstStays", qryKeyVIP);
+    //   });
+    // }
   }
 
   if (event.data.type === "gotResDetail") {

@@ -28,6 +28,7 @@ console.log(jData);
 
 export function dispResDetail(data) {
     let guestList = data.data.guestList;
+    let assignedRooms = data.data.assigned;
     let guestCnt = Object.keys(guestList).length;
 
     for (let key in guestList) {
