@@ -3,12 +3,20 @@ import { dater, formatter } from "./utility.js";
 let tblHdrs = { guestID: "Guest ID" };
 tblHdrs["guestLastName"] = "Last";
 tblHdrs["guestFirstName"] = "First";
-tblHdrs["isMainGuest"] = "Main Guest?";
+tblHdrs["isMainGuest"] = "Main?";
 tblHdrs["assignedRoom"] = "Assigned?";
-tblHdrs["roomName"] = "Room";
+// tblHdrs["roomName"] = "Room";
 tblHdrs["guestStatus"] = "Status";
 tblHdrs["rooms"] = "Rooms";
 // tblHdrs['isPrivate'] = 'Private?'
+
+let statusHdrs = {'checked_in': 'Chk/In'
+    , 'checked_out': 'Chk/Out'
+    , 'cancelled': 'Canx'
+    , 'confirmed': 'Confrm'
+    , 'in_house': 'In Hse'
+    , 'not_checked_in': 'Not C/I'
+    , 'vip': 'VIP'}  
 
 /**
  * let jData = [
@@ -28,6 +36,7 @@ console.log(jData);
 
 export function dispResDetail(data) {
     let guestList = data.data.guestList;
+
     let assignedRooms = data.data.assigned;
     let guestCnt = Object.keys(guestList).length;
 
@@ -84,14 +93,35 @@ export function dispResDetail(data) {
 
     let rooms
     for (let key in guestList) {
-        rooms = guestList[key].rooms;
+        let guest = guestList[key];
+        rooms = (guest.isMainGuest) ? guest.rooms : "";
         newTable += "<tr>";
         console.log("dispResDetail: guestList: ", key, " : ", guestList[key]);
         for (let key1 in tblHdrs) {
-            // newTable += "<tr>";
-            // newTable += "<th>" + tblHdrs[key1] + "</th>";
-            newTable += "<td>" + guestList[key][key1] + "</td>";
-            // newTable += "</tr>";
+            switch (key1) {
+                case "guestStatus":
+                    let status = guest[key1];
+                    let statStr = statusHdrs[status];
+                    newTable += "<td>" + statStr + "</td>";
+                    break;
+                case "rooms":
+                    if (guest.isMainGuest) {
+                        newTable += "<td>" 
+                        for (let i = 0; i < rooms.length; i++) {
+                            newTable += rooms[i].roomName + "<br>";
+                        }
+                        newTable += "</td>";
+                    }
+                    break;
+                default:
+                    newTable += "<td>" + guest[key1] + "</td>";
+                    break;
+                }
+            // if (key1 === "rooms") {
+            //     // newTable += "<td>" + rooms + "</td>";
+            // } else {
+            //     newTable += "<td>" + guestList[key][key1] + "</td>";
+            // }
         }
         newTable += "</tr>";
     }

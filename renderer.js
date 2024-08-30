@@ -46,24 +46,13 @@ let later = today + 5
  */
 
 hdrStatusChecks.addEventListener("click", (event) => {
-  console.log("hdrStatus clicked");
+  // console.log("hdrStatus clicked");
   let clsName = event.srcElement.className;
   let clsChecked = event.srcElement.checked;
+  document.getElementById("resDtlDiv").innerHTML = "";
   updateStatusFlag(clsName, clsChecked);
   displayReservations(resList);
-  document.getElementById("resDtlDiv").innerHTML = "";
 });
-  // const el = document.querySelector("#resListDiv");
-  // const allRows = el.querySelectorAll("tr.checked_in");
-  // allRows.forEach((row) => {
-  //   row.style.visibility = "hidden";
-  // });
-// });
-
-// btnSwitch2HA.addEventListener("click", () => {
-//   // console.log("btnSwitch clicked");
-//   api.send("switch2HA");
-// });
 
 /*
  * Clicked on the search button
@@ -81,7 +70,6 @@ const displayReservations = (data) => {
   clearSelections();
 
   // go show results of the guest search
-  // rowCnt = dispResList(event.data.data);
   rowCnt = dispResList(resList);
   // console.log('rowCnt: ', rowCnt);
   
