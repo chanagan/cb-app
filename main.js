@@ -40,9 +40,9 @@ const createWindow = () => {
 
     window.webContents.openDevTools({
         mode: "detach",
-        width: 1200,
-        height: 900,
-        x: 900,
+        width: winWidth,
+        height: winHeight,
+        x: winWidth,
         y: 100,
         show: true,
     });

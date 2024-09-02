@@ -4,9 +4,11 @@ let tblHdrs = { reservationID: "Res ID" };
 tblHdrs["guestName"] = "Guest Name";
 tblHdrs["nights"] = "Nights";
 tblHdrs["startDate"] = "Check In";
-tblHdrs["endDate"] = "Check Out";
+tblHdrs["dow"] = "Day of Week";
 tblHdrs["adults"] = "Adults";
 // tblHdrs['isPrivate'] = 'Private?'
+
+let daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 /**
  * let jData = [
@@ -78,8 +80,12 @@ export function dispResList(data) {
                     case "startDate":
                         newTable += "<td>" + dater(data[i][key]) + "</td>";
                         break;
-                    case "endDate":
-                        newTable += "<td>" + dater(data[i][key]) + "</td>";
+                    // case "endDate":
+                    //     newTable += "<td>" + dater(data[i][key]) + "</td>";
+                    //     break;
+                    case "dow":
+                        let dowNum = new Date(data[i].startDate).getDay();
+                        newTable += "<td align='center'>" + daysOfWeek[dowNum] + "</td>";
                         break;
                     default:
                         newTable += "<td>" + data[i][key] + "</td>";
