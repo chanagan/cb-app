@@ -68,13 +68,18 @@ export function dispResList(data) {
     // create table rows
     for (let i = 0; i < rowCnt; i++) {
         // newTable += "<tr>";
+        let record = data[i];
+        if (record.status === "canceled") {
+            continue;
+        }
         let resStatus = data[i].nights < 6 ? data[i].status : "vip";
 
-        if (statusFlag(resStatus)) {
+        // if (statusFlag(resStatus)) {
+        if (resStatus === "vip") {
             displayCnt++;
             let resID = data[i].reservationID;
             let newRow = `<tr class='${resStatus}' data-resID=${resID}>`;
-            newTable += newRow;
+            // let newRow = `<tr  data-resID=${resID}>`;
             for (let key in tblHdrs) {
                 switch (key) {
                     case "startDate":
@@ -85,18 +90,25 @@ export function dispResList(data) {
                     //     break;
                     case "dow":
                         let dowNum = new Date(data[i].startDate).getDay();
-                        newTable += "<td align='center'>" + daysOfWeek[dowNum] + "</td>";
+                        newTable +=
+                            "<td align='center'>" +
+                            daysOfWeek[dowNum] +
+                            "</td>";
                         break;
                     default:
                         newTable += "<td>" + data[i][key] + "</td>";
                         break;
                 }
             }
+            // close the row
             newTable += "</tr>";
+            // add the row to the table
+            newTable += newRow;
         }
     }
 
     // }
+    // close the table
     newTable += "</table>";
     haTblDiv.innerHTML = newTable;
 

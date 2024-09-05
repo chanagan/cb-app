@@ -66,7 +66,7 @@ export const formatter = new Intl.NumberFormat("en-US", {
 let statusFlags = { vip: true };
 statusFlags["checked_in"] = true;
 statusFlags["checked_out"] = true;
-statusFlags["canceled"] = true;
+// statusFlags["canceled"] = true;
 statusFlags["confirmed"] = true;
 
 export function statusFlag(status) {

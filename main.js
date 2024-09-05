@@ -87,6 +87,7 @@ ipcMain.on("resList", async (event, data) => {
         // checkInTo: "2024-08-31",
         checkInFrom: dtFrom,
         checkInTo: dtTo,
+        pageNumber: 1,
     });
     fetch(cbServer + 'getReservations?' + params, cbOptions)
         .then(res => res.json())
