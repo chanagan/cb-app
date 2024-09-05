@@ -27,6 +27,7 @@ console.log(jData);
  */
 
 export function dispResList(data) {
+    let record
     let rowCnt = data.length;
     let haTblDiv = document.getElementById("resListDiv");
 
@@ -43,11 +44,12 @@ export function dispResList(data) {
 
     // compute the number of nights
     for (let i = 0; i < rowCnt; i++) {
-        let sDate = new Date(data[i].startDate);
-        let eDate = new Date(data[i].endDate);
+        record = data[i];
+        let sDate = new Date(record.startDate);
+        let eDate = new Date(record.endDate);
         let diffTime = Math.abs(eDate - sDate);
         let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        data[i].nights = diffDays;
+        record.nights = diffDays;
     }
     console.log("dispResList: data: ", rowCnt, " : ", data);
 
@@ -68,40 +70,41 @@ export function dispResList(data) {
     // create table rows
     for (let i = 0; i < rowCnt; i++) {
         // newTable += "<tr>";
-        let record = data[i];
+        record = data[i];
         if (record.status === "canceled") {
             continue;
         }
-        let resStatus = data[i].nights < 6 ? data[i].status : "vip";
+        let resStatus = record.nights < 6 ? record.status : "vip";
 
         // if (statusFlag(resStatus)) {
         if (resStatus === "vip") {
             displayCnt++;
-            let resID = data[i].reservationID;
+            let resID = record.reservationID;
+            // start a new row
             let newRow = `<tr class='${resStatus}' data-resID=${resID}>`;
             // let newRow = `<tr  data-resID=${resID}>`;
             for (let key in tblHdrs) {
                 switch (key) {
                     case "startDate":
-                        newTable += "<td>" + dater(data[i][key]) + "</td>";
+                        newRow += "<td>" + dater(record[key]) + "</td>";
                         break;
                     // case "endDate":
-                    //     newTable += "<td>" + dater(data[i][key]) + "</td>";
+                    //     newTable += "<td>" + dater(record[key]) + "</td>";
                     //     break;
                     case "dow":
-                        let dowNum = new Date(data[i].startDate).getDay();
-                        newTable +=
+                        let dowNum = new Date(record.startDate).getDay();
+                        newRow +=
                             "<td align='center'>" +
                             daysOfWeek[dowNum] +
                             "</td>";
                         break;
                     default:
-                        newTable += "<td>" + data[i][key] + "</td>";
+                        newRow += "<td>" + record[key] + "</td>";
                         break;
                 }
             }
             // close the row
-            newTable += "</tr>";
+            newRow += "</tr>";
             // add the row to the table
             newTable += newRow;
         }
