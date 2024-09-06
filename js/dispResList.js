@@ -81,8 +81,8 @@ export function dispResList(data) {
             displayCnt++;
             let resID = record.reservationID;
             // start a new row
-            let newRow = `<tr class='${resStatus}' data-resID=${resID}>`;
-            // let newRow = `<tr  data-resID=${resID}>`;
+            // let newRow = `<tr class='${resStatus}' data-resID=${resID}>`;
+            let newRow = `<tr  data-resID=${resID}>`;
             for (let key in tblHdrs) {
                 switch (key) {
                     case "startDate":
